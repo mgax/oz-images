@@ -51,9 +51,14 @@ app.get('/image/:name', (req, res) => {
     let convert = child_process.spawn(
       'convert',
       [original, '-thumbnail', size, thumbTmp],
+      {stdio: 'inherit'},
     );
-    // TODO error handling on spawn and close
-    convert.on('close', () => {
+    convert.on('close', (rv) => {
+      if(rv != 0) {
+        console.log('convert failed');
+        res.sendStatus(500);
+        return;
+      }
       fs.renameSync(thumbTmp, thumb);
       res.sendFile(thumb);
     })

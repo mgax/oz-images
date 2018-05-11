@@ -10,6 +10,8 @@ function greeter(person: string) {
   return "Hello, " + person;
 }
 
+// TODO stats
+// TODO configure static folder
 app.get('/', (req, res) => res.send(greeter('jane')));
 
 function randomNumber() {
@@ -23,6 +25,8 @@ app.get('/image/:name', (req, res) => {
   let size = req.query.size;
 
   // TODO replace all fs calls with async versions
+  // TODO store thumbs in a hashed folder hierarchy to accomodate a large
+  // number of files
 
   if(size) {
     let sizeMatch = size.match(/^(\d+)x(\d+)$/)

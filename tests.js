@@ -29,7 +29,7 @@ describe('GET /image/640px-Savannah_Cat_closeup.jpg', () => {
       expect(res.status).to.equal(200);
       expect(res).to.have.header('content-type', 'image/jpeg');
       expect(res).to.have.header('content-length', '37430');
+      done();
     });
-    done();
   });
 });

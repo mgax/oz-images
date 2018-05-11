@@ -15,6 +15,6 @@ ADD package-lock.json .
 RUN npm install
 
 COPY . .
-RUN node_modules/.bin/tsc index.ts server.ts
+RUN make ts
 
 CMD node index.js

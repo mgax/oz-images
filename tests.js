@@ -22,7 +22,7 @@ describe('GET /', () => {
 });
 
 describe('GET /image/640px-Savannah_Cat_closeup.jpg', () => {
-  it('should respond with 200 and content', (done) => {
+  it('should respond with original image', (done) => {
     chai.request(server)
     .get('/image/640px-Savannah_Cat_closeup.jpg')
     .end((err, res) => {
@@ -39,7 +39,7 @@ describe('GET /image/640px-Savannah_Cat_closeup.jpg', () => {
 });
 
 describe('GET /image/640px-Savannah_Cat_closeup.jpg?size=100x100', () => {
-  it('should respond with 200 and content', (done) => {
+  it('should respond with thumbnail', (done) => {
     chai.request(server)
     .get('/image/640px-Savannah_Cat_closeup.jpg?size=100x100')
     .end((err, res) => {
@@ -55,7 +55,7 @@ describe('GET /image/640px-Savannah_Cat_closeup.jpg?size=100x100', () => {
 });
 
 describe('GET /image/no-such-file.jpg', () => {
-  it('should respond with 200 and content', (done) => {
+  it('should respond with 404', (done) => {
     chai.request(server)
     .get('/image/no-such-file.jpg')
     .end((err, res) => {
@@ -67,7 +67,7 @@ describe('GET /image/no-such-file.jpg', () => {
 });
 
 describe('GET /image/640px-Savannah_Cat_closeup.jpg?size=invalid', () => {
-  it('should respond with 200 and content', (done) => {
+  it('should respond with 404', (done) => {
     chai.request(server)
     .get('/image/640px-Savannah_Cat_closeup.jpg?size=invalid')
     .end((err, res) => {

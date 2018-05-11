@@ -10,4 +10,4 @@ test: build
 	docker run --rm -i -t oz-images npm test
 
 ts:
-	node_modules/.bin/tsc index.ts server.ts
+	node_modules/.bin/tsc

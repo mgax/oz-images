@@ -3,6 +3,7 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 var expect = chai.expect;
+var imagemagick = require('imagemagick-native');
 
 var app = require('./server.js').default;
 app.set('oz-image-path', '/app/testimages');
@@ -29,6 +30,49 @@ describe('GET /image/640px-Savannah_Cat_closeup.jpg', () => {
       expect(res.status).to.equal(200);
       expect(res).to.have.header('content-type', 'image/jpeg');
       expect(res).to.have.header('content-length', '37430');
+      let meta = imagemagick.identify({srcData: res.body});
+      expect(meta.width).to.equal(640);
+      expect(meta.height).to.equal(427);
+      done();
+    });
+  });
+});
+
+describe('GET /image/640px-Savannah_Cat_closeup.jpg?size=100x100', () => {
+  it('should respond with 200 and content', (done) => {
+    chai.request(server)
+    .get('/image/640px-Savannah_Cat_closeup.jpg?size=100x100')
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res.status).to.equal(200);
+      expect(res).to.have.header('content-type', 'image/jpeg');
+      let meta = imagemagick.identify({srcData: res.body});
+      expect(meta.width).to.be.at.most(100);
+      expect(meta.height).to.be.at.most(100);
+      done();
+    });
+  });
+});
+
+describe('GET /image/no-such-file.jpg', () => {
+  it('should respond with 200 and content', (done) => {
+    chai.request(server)
+    .get('/image/no-such-file.jpg')
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res.status).to.equal(404);
+      done();
+    });
+  });
+});
+
+describe('GET /image/640px-Savannah_Cat_closeup.jpg?size=invalid', () => {
+  it('should respond with 200 and content', (done) => {
+    chai.request(server)
+    .get('/image/640px-Savannah_Cat_closeup.jpg?size=invalid')
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res.status).to.equal(404);
       done();
     });
   });

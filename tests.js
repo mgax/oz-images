@@ -66,6 +66,18 @@ describe('GET /image/no-such-file.jpg', () => {
   });
 });
 
+describe('GET /image/640px-Savannah_Cat_closeup.jpg?size=100000x100000', () => {
+  it('should respond with 404', (done) => {
+    chai.request(server)
+    .get('/image/640px-Savannah_Cat_closeup.jpg?size=100000x100000')
+    .end((err, res) => {
+      expect(err).to.be.null;
+      expect(res.status).to.equal(404);
+      done();
+    });
+  });
+});
+
 describe('GET /image/640px-Savannah_Cat_closeup.jpg?size=invalid', () => {
   it('should respond with 404', (done) => {
     chai.request(server)

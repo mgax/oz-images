@@ -2,6 +2,8 @@ import * as express from "express";
 import * as child_process from "child_process";
 import * as fs from "fs";
 
+const SIZE_LIMIT = 10000;
+
 const app: express.Application = express();
 
 function greeter(person: string) {
@@ -23,12 +25,15 @@ app.get('/image/:name', (req, res) => {
   // TODO replace all fs calls with async versions
 
   if(size) {
-    if(! size.match(/^(\d+)x(\d+)$/)) {
+    let sizeMatch = size.match(/^(\d+)x(\d+)$/)
+    if(! sizeMatch) {
       res.sendStatus(404);
       return;
     }
-
-    // TODO limit thumbnail size
+    if(+sizeMatch[1] > SIZE_LIMIT || +sizeMatch[2] > SIZE_LIMIT) {
+      res.sendStatus(404);
+      return;
+    }
 
     let thumbDir = root + '/thumbs';
     let thumb = thumbDir + '/' + size + '-' + name;

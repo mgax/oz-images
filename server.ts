@@ -6,12 +6,15 @@ const SIZE_LIMIT = 10000;
 
 const app: express.Application = express();
 
-function greeter(person: string) {
-  return "Hello, " + person;
+let stats = {
+  'requests': 0,
+  'originals': 0,
+  'thumbnails': 0,
+  'cache_hits': 0,
+  'cache_misses': 0,
 }
 
-// TODO stats
-app.get('/', (req, res) => res.send(greeter('jane')));
+app.get('/stats', (req, res) => res.send(stats));
 
 function randomNumber() {
   return Math.ceil(Math.random() * 100000000);
@@ -22,6 +25,8 @@ app.get('/image/:name', (req, res) => {
   let name = req.params['name'];
   let original = root + '/' + name;
   let size = req.query.size;
+
+  stats['requests'] += 1;
 
   // TODO replace all fs calls with async versions
   // TODO store thumbs in a hashed folder hierarchy to accomodate a large
@@ -38,13 +43,18 @@ app.get('/image/:name', (req, res) => {
       return;
     }
 
+    stats['thumbs'] += 1;
+
     let thumbDir = root + '/thumbs';
     let thumb = thumbDir + '/' + size + '-' + name;
 
     if(fs.existsSync(thumb)) {
+      stats['cache_hits'] += 1;
       res.sendFile(thumb);
       return;
     }
+
+    stats['cache_misses'] += 1;
 
     if(! fs.existsSync(thumbDir)) {
       fs.mkdirSync(thumbDir);
@@ -67,6 +77,7 @@ app.get('/image/:name', (req, res) => {
     })
   }
   else {
+    stats['originals'] += 1;
     res.sendFile(original);
   }
 });

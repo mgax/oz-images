@@ -9,10 +9,10 @@ var app = require('./server.js').default;
 app.set('oz-image-path', '/app/images');
 var server = app.listen(3000);
 
-describe('GET /', () => {
+describe('GET /stats', () => {
   it('should respond with 200', (done) => {
     chai.request(server)
-    .get('/')
+    .get('/stats')
     .end((err, res) => {
       expect(err).to.be.null;
       expect(res.status).to.equal(200);

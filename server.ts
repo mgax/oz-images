@@ -11,7 +11,6 @@ function greeter(person: string) {
 }
 
 // TODO stats
-// TODO configure static folder
 app.get('/', (req, res) => res.send(greeter('jane')));
 
 function randomNumber() {

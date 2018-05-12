@@ -20,6 +20,14 @@ services:
       - path/to/images:/app/images
 ```
 
+Images are served at `http://localhost:8080/image/$filename`. The endpoint
+supports a `size` argument which returns scaled images, e.g.
+`/image/$filename?size=100x100`.
+
+Scaling keeps the original aspect ratio and constraining the thumbnail to fit
+inside the given bounding box. This is done using Imagemagick's `convert
+-thumbnail` [command](https://www.imagemagick.org/Usage/thumbnails/).
+
 
 ## Development
 To run the test suite, simply run `make test`. It will spin up a docker

@@ -43,7 +43,7 @@ app.get('/image/:name', (req, res) => {
       return;
     }
 
-    stats['thumbs'] += 1;
+    stats['thumbnails'] += 1;
 
     let thumbDir = root + '/thumbs';
     let thumb = thumbDir + '/' + size + '-' + name;

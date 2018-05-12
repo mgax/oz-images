@@ -2,5 +2,5 @@
 /docker-compose.override.yml
 /index.js
 /server.js
-!/images/640px-Savannah_Cat_closeup.jpg
 /images/*
+!/images/640px-Savannah_Cat_closeup.jpg

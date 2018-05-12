@@ -28,6 +28,19 @@ Scaling keeps the original aspect ratio and constraining the thumbnail to fit
 inside the given bounding box. This is done using Imagemagick's `convert
 -thumbnail` [command](https://www.imagemagick.org/Usage/thumbnails/).
 
+The service keeps statistics about images served. They can be retrieved at the
+`/stats` endpoint:
+
+```json
+{
+  "requests":7,
+  "originals":4,
+  "thumbnails":3,
+  "cache_hits":2,
+  "cache_misses":1
+}
+```
+
 
 ## Development
 To run the test suite, simply run `make test`. It will spin up a docker

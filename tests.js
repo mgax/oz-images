@@ -6,7 +6,7 @@ var expect = chai.expect;
 var imagemagick = require('imagemagick-native');
 
 var app = require('./server.js').default;
-app.set('oz-image-path', '/app/testimages');
+app.set('oz-image-path', '/app/images');
 var server = app.listen(3000);
 
 describe('GET /', () => {
